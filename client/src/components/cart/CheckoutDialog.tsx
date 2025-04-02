@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Calendar as CalendarIcon, Clock, X } from "lucide-react";
+import React, { useState } from "react";
+import { Calendar as CalendarIcon, Clock, Home, MapPin, Plus } from "lucide-react";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { Button } from "@/components/ui/button";
@@ -8,10 +8,14 @@ import { Textarea } from "@/components/ui/textarea";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Order, OrderSummary } from "@/lib/types";
+import { Address, Order, OrderSummary } from "@/lib/types";
 import { useCart } from "@/contexts/CartContext";
-import { apiRequest } from "@/lib/queryClient";
+import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import AddressForm from "@/components/address/AddressForm";
 
 interface CheckoutDialogProps {
   open: boolean;
@@ -27,6 +31,10 @@ export default function CheckoutDialog({ open, onOpenChange, userId }: CheckoutD
   const [timeSlot, setTimeSlot] = useState("");
   const [notes, setNotes] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [selectedAddressId, setSelectedAddressId] = useState<number | undefined>(undefined);
+  const [addresses, setAddresses] = useState<Address[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [showAddressForm, setShowAddressForm] = useState(false);
   
   // Calcula o total do pedido
   const totalAmount = items.reduce((total, item) => {
@@ -44,12 +52,54 @@ export default function CheckoutDialog({ open, onOpenChange, userId }: CheckoutD
     return `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
   });
   
+  // Carrega os endereços do usuário
+  const loadAddresses = async () => {
+    if (!userId) return;
+    
+    setIsLoading(true);
+    try {
+      const data = await apiRequest({
+        url: `/api/users/${userId}/addresses`,
+        method: "GET"
+      });
+      
+      setAddresses(data);
+      
+      // Seleciona o endereço padrão, se existir
+      const defaultAddress = data.find((addr: Address) => addr.isDefault);
+      if (defaultAddress) {
+        setSelectedAddressId(defaultAddress.id);
+      } else if (data.length > 0) {
+        setSelectedAddressId(data[0].id);
+      }
+    } catch (error) {
+      console.error("Erro ao carregar endereços:", error);
+      toast({
+        title: "Erro ao carregar endereços",
+        description: "Não foi possível carregar seus endereços. Tente novamente.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  
+
+  
+  // Efeito para carregar endereços quando o diálogo é aberto
+  React.useEffect(() => {
+    if (open && userId) {
+      loadAddresses();
+    }
+  }, [open, userId]);
+  
   // Limpa o formulário quando o modal é fechado
   const handleDialogOpenChange = (open: boolean) => {
     if (!open) {
       setDate(undefined);
       setTimeSlot("");
       setNotes("");
+      setShowAddressForm(false);
     }
     onOpenChange(open);
   };
@@ -83,6 +133,25 @@ export default function CheckoutDialog({ open, onOpenChange, userId }: CheckoutD
       return;
     }
     
+    if (!selectedAddressId && addresses.length > 0) {
+      toast({
+        title: "Endereço de entrega obrigatório",
+        description: "Por favor, selecione um endereço para entrega.",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    if (addresses.length === 0 && !showAddressForm) {
+      toast({
+        title: "Endereço de entrega obrigatório",
+        description: "Por favor, adicione um endereço para entrega.",
+        variant: "destructive"
+      });
+      setShowAddressForm(true);
+      return;
+    }
+    
     setIsSubmitting(true);
     
     // Formata a data e horário selecionados
@@ -94,6 +163,7 @@ export default function CheckoutDialog({ open, onOpenChange, userId }: CheckoutD
       totalAmount,
       deliveryDate,
       notes: notes.trim() || undefined,
+      addressId: selectedAddressId,
       items: items.map(item => ({
         productId: item.product.id,
         quantity: item.quantity,
@@ -227,6 +297,96 @@ export default function CheckoutDialog({ open, onOpenChange, userId }: CheckoutD
           </div>
           
           <div className="space-y-2">
+            <div className="flex justify-between items-center">
+              <h3 className="text-sm font-medium">Endereço de entrega</h3>
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={() => setShowAddressForm(!showAddressForm)}
+                className="h-8 px-2 text-xs"
+              >
+                {showAddressForm ? (
+                  <span className="flex items-center">
+                    <MapPin className="mr-1 h-3 w-3" />
+                    Selecionar existente
+                  </span>
+                ) : (
+                  <span className="flex items-center">
+                    <Plus className="mr-1 h-3 w-3" />
+                    Novo endereço
+                  </span>
+                )}
+              </Button>
+            </div>
+            
+            {showAddressForm ? (
+              <div className="border p-3 rounded-md">
+                <AddressForm
+                  userId={userId || 0}
+                  onSuccess={() => {
+                    loadAddresses();
+                    setShowAddressForm(false);
+                  }}
+                  onCancel={() => setShowAddressForm(false)}
+                />
+              </div>
+            ) : (
+              <>
+                {isLoading ? (
+                  <div className="flex justify-center py-4">
+                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-[#f74ea7]"></div>
+                  </div>
+                ) : addresses.length === 0 ? (
+                  <div className="text-center py-4 border rounded-md">
+                    <Home className="mx-auto h-8 w-8 text-gray-400 mb-2" />
+                    <p className="text-sm text-gray-500 mb-2">Nenhum endereço cadastrado</p>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      onClick={() => setShowAddressForm(true)}
+                      className="mx-auto"
+                    >
+                      <Plus className="mr-1 h-3 w-3" />
+                      Adicionar endereço
+                    </Button>
+                  </div>
+                ) : (
+                  <RadioGroup 
+                    value={selectedAddressId?.toString() || ""} 
+                    onValueChange={(value) => setSelectedAddressId(parseInt(value))}
+                    className="space-y-2"
+                  >
+                    <ScrollArea className="h-[150px] rounded-md border p-2">
+                      {addresses.map((address) => (
+                        <div key={address.id} className="flex items-start space-x-2 py-2">
+                          <RadioGroupItem value={address.id.toString()} id={`address-${address.id}`} className="mt-1" />
+                          <div className="grid gap-1.5 leading-none">
+                            <Label htmlFor={`address-${address.id}`} className="font-medium">
+                              {address.street}, {address.number}
+                              {address.isDefault && (
+                                <span className="ml-2 text-xs bg-[#f74ea7]/10 text-[#f74ea7] px-1.5 py-0.5 rounded">
+                                  Padrão
+                                </span>
+                              )}
+                            </Label>
+                            <div className="text-sm text-gray-500">
+                              {address.complement && <div>{address.complement}</div>}
+                              <div>
+                                {address.neighborhood}, {address.city}/{address.state}
+                              </div>
+                              <div>CEP: {address.zipcode}</div>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </ScrollArea>
+                  </RadioGroup>
+                )}
+              </>
+            )}
+          </div>
+          
+          <div className="space-y-2">
             <h3 className="text-sm font-medium">Observações (opcional)</h3>
             <Textarea 
               placeholder="Instruções especiais para entrega, informações adicionais, etc."
@@ -243,7 +403,7 @@ export default function CheckoutDialog({ open, onOpenChange, userId }: CheckoutD
           </Button>
           <Button
             onClick={handleCreateOrder}
-            disabled={!date || !timeSlot || isSubmitting}
+            disabled={!date || !timeSlot || isSubmitting || (addresses.length > 0 && !selectedAddressId) || (addresses.length === 0 && !showAddressForm)}
             className="bg-[#f74ea7] hover:bg-[#f74ea7]/90"
           >
             {isSubmitting ? "Processando..." : "Confirmar Pedido"}

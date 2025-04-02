@@ -2,6 +2,20 @@ import { pgTable, text, serial, integer, boolean, timestamp, jsonb } from "drizz
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
+// Address schema
+export const addresses = pgTable("addresses", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull(),
+  street: text("street").notNull(),
+  number: text("number").notNull(),
+  complement: text("complement"),
+  neighborhood: text("neighborhood").notNull(),
+  city: text("city").notNull(),
+  state: text("state").notNull(),
+  zipcode: text("zipcode").notNull(),
+  isDefault: boolean("is_default").default(false),
+});
+
 // User schema
 export const users = pgTable("users", {
   id: serial("id").primaryKey(),
@@ -55,6 +69,7 @@ export const orders = pgTable("orders", {
   createdAt: timestamp("created_at").defaultNow(),
   deliveryDate: text("delivery_date").notNull(),
   notes: text("notes"),
+  addressId: integer("address_id"),
 });
 
 // Order items
@@ -75,6 +90,18 @@ export const insertUserSchema = createInsertSchema(users).pick({
   name: true,
   email: true,
   whatsapp: true,
+});
+
+export const insertAddressSchema = createInsertSchema(addresses).pick({
+  userId: true,
+  street: true,
+  number: true,
+  complement: true,
+  neighborhood: true,
+  city: true,
+  state: true,
+  zipcode: true,
+  isDefault: true,
 });
 
 export const insertProductSchema = createInsertSchema(products).pick({
@@ -103,6 +130,7 @@ export const insertOrderSchema = createInsertSchema(orders).pick({
   totalAmount: true,
   deliveryDate: true,
   notes: true,
+  addressId: true,
 });
 
 export const insertOrderItemSchema = createInsertSchema(orderItems).pick({
@@ -117,6 +145,9 @@ export const insertOrderItemSchema = createInsertSchema(orderItems).pick({
 // Type exports
 export type User = typeof users.$inferSelect;
 export type InsertUser = z.infer<typeof insertUserSchema>;
+
+export type Address = typeof addresses.$inferSelect;
+export type InsertAddress = z.infer<typeof insertAddressSchema>;
 
 export type Product = typeof products.$inferSelect;
 export type InsertProduct = z.infer<typeof insertProductSchema>;

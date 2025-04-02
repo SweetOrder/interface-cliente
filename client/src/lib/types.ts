@@ -1,10 +1,24 @@
 // Types that match the schema.ts but for client-side use
+export interface Address {
+  id: number;
+  userId: number;
+  street: string;
+  number: string;
+  complement?: string;
+  neighborhood: string;
+  city: string;
+  state: string;
+  zipcode: string;
+  isDefault: boolean;
+}
+
 export interface User {
   id: number;
   username: string;
   name: string;
   email: string;
   whatsapp: string;
+  addresses?: Address[];
 }
 
 export interface SizeOption {
@@ -44,6 +58,7 @@ export interface OrderSummary {
   totalAmount: number;
   deliveryDate: string;
   notes?: string;
+  addressId?: number;
   items: {
     productId: number;
     quantity: number;

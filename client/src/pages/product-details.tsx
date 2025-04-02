@@ -4,7 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Product } from "@/lib/types";
 import { useFavorites } from "@/contexts/FavoritesContext";
 import { useCart } from "@/contexts/CartContext";
-import { Heart, Minus, Plus, ArrowLeft } from "lucide-react";
+import { Heart, Minus, Plus, ArrowLeft, ShoppingCart } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -18,7 +19,8 @@ interface ProductDetailsProps {
 export default function ProductDetails({ id }: ProductDetailsProps) {
   const [_, navigate] = useLocation();
   const { favoriteIds, toggleFavorite } = useFavorites();
-  const { addToCart } = useCart();
+  const { addToCart, toggleCartOpen } = useCart();
+  const { toast } = useToast();
   
   const [quantity, setQuantity] = useState(1);
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
@@ -64,6 +66,17 @@ export default function ProductDetails({ id }: ProductDetailsProps) {
       selectedSizeOption
     });
     
+    // Mostrar toast de confirmação
+    toast({
+      title: "Produto adicionado",
+      description: `${product.name} foi adicionado ao seu carrinho.`,
+      duration: 3000,
+    });
+    
+    // Abrir o carrinho automaticamente
+    toggleCartOpen();
+    
+    // Navegar para a página de produtos
     navigate("/products");
   };
   
@@ -224,24 +237,4 @@ export default function ProductDetails({ id }: ProductDetailsProps) {
   );
 }
 
-// Shopping cart icon component
-function ShoppingCart(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      {...props}
-    >
-      <circle cx="8" cy="21" r="1" />
-      <circle cx="19" cy="21" r="1" />
-      <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" />
-    </svg>
-  );
-}
+

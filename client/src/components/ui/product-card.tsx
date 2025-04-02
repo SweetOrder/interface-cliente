@@ -60,29 +60,8 @@ export default function ProductCard({
   const handleAddToCart = (e: React.MouseEvent) => {
     e.stopPropagation();
     
-    if (product.hasSizeOptions) {
-      openProductDetails(product);
-    } else {
-      addToCart({
-        product,
-        quantity: 1
-      });
-      
-      // Mostrar feedback visual
-      setAddedToCart(true);
-      
-      // Mostrar toast de confirmação
-      toast({
-        title: "Produto adicionado",
-        description: `${product.name} foi adicionado ao seu carrinho.`,
-        duration: 3000,
-      });
-      
-      // Resetar o estado após um tempo
-      setTimeout(() => {
-        setAddedToCart(false);
-      }, 1500);
-    }
+    // Sempre redirecionar para a página de detalhes do produto
+    navigate(`/products/${product.id}`);
   };
   
   return (

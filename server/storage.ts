@@ -1,5 +1,6 @@
 import { 
   type User, type InsertUser, 
+  type Address, type InsertAddress,
   type Product, type InsertProduct,
   type Menu, type InsertMenu,
   type MenuProduct,
@@ -13,6 +14,14 @@ export interface IStorage {
   getUser(id: number): Promise<User | undefined>;
   getUserByUsername(username: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
+  
+  // Address methods
+  createAddress(address: InsertAddress): Promise<Address>;
+  getAddressesByUserId(userId: number): Promise<Address[]>;
+  getAddress(id: number): Promise<Address | undefined>;
+  updateAddress(id: number, address: Partial<InsertAddress>): Promise<Address | undefined>;
+  deleteAddress(id: number): Promise<void>;
+  setDefaultAddress(userId: number, addressId: number): Promise<void>;
   
   // Product methods
   getProduct(id: number): Promise<Product | undefined>;
@@ -47,6 +56,7 @@ export interface IStorage {
 
 export class MemStorage implements IStorage {
   private users: Map<number, User>;
+  private addresses: Map<number, Address>;
   private products: Map<number, Product>;
   private menus: Map<number, Menu>;
   private menuProducts: Map<number, MenuProduct[]>;
@@ -54,6 +64,7 @@ export class MemStorage implements IStorage {
   private orders: Map<number, Order>;
   private orderItems: Map<number, OrderItem[]>;
   private currentUserId: number;
+  private currentAddressId: number;
   private currentProductId: number;
   private currentMenuId: number;
   private currentMenuProductId: number;
@@ -63,6 +74,7 @@ export class MemStorage implements IStorage {
 
   constructor() {
     this.users = new Map();
+    this.addresses = new Map();
     this.products = new Map();
     this.menus = new Map();
     this.menuProducts = new Map();
@@ -70,6 +82,7 @@ export class MemStorage implements IStorage {
     this.orders = new Map();
     this.orderItems = new Map();
     this.currentUserId = 1;
+    this.currentAddressId = 1;
     this.currentProductId = 1;
     this.currentMenuId = 1;
     this.currentMenuProductId = 1;
@@ -237,6 +250,87 @@ export class MemStorage implements IStorage {
     return user;
   }
   
+  // Address methods
+  async createAddress(address: InsertAddress): Promise<Address> {
+    const id = this.currentAddressId++;
+    const newAddress: Address = { 
+      ...address, 
+      id,
+    };
+    
+    // If this is the first address for the user or is marked as default, ensure it's the default
+    if (address.isDefault) {
+      // Remove default flag from other addresses for this user
+      await this.setDefaultAddress(address.userId, id);
+    } else {
+      // If no addresses exist for this user yet, make this the default
+      const userAddresses = await this.getAddressesByUserId(address.userId);
+      if (userAddresses.length === 0) {
+        newAddress.isDefault = true;
+      }
+    }
+    
+    this.addresses.set(id, newAddress);
+    return newAddress;
+  }
+  
+  async getAddressesByUserId(userId: number): Promise<Address[]> {
+    return Array.from(this.addresses.values()).filter(
+      (address) => address.userId === userId
+    );
+  }
+  
+  async getAddress(id: number): Promise<Address | undefined> {
+    return this.addresses.get(id);
+  }
+  
+  async updateAddress(id: number, updateData: Partial<InsertAddress>): Promise<Address | undefined> {
+    const address = this.addresses.get(id);
+    if (!address) return undefined;
+    
+    const updatedAddress: Address = { ...address, ...updateData };
+    
+    // If making this address the default, update other addresses
+    if (updateData.isDefault && updateData.isDefault !== address.isDefault) {
+      await this.setDefaultAddress(address.userId, id);
+    }
+    
+    this.addresses.set(id, updatedAddress);
+    return updatedAddress;
+  }
+  
+  async deleteAddress(id: number): Promise<void> {
+    const address = this.addresses.get(id);
+    if (!address) return;
+    
+    this.addresses.delete(id);
+    
+    // If deleted address was default, set a new default if other addresses exist
+    if (address.isDefault) {
+      const userAddresses = await this.getAddressesByUserId(address.userId);
+      if (userAddresses.length > 0) {
+        await this.updateAddress(userAddresses[0].id, { isDefault: true });
+      }
+    }
+  }
+  
+  async setDefaultAddress(userId: number, addressId: number): Promise<void> {
+    // First, remove default from all user addresses
+    for (const [id, address] of this.addresses.entries()) {
+      if (address.userId === userId && address.isDefault) {
+        address.isDefault = false;
+        this.addresses.set(id, address);
+      }
+    }
+    
+    // Then set the selected address as default
+    const address = this.addresses.get(addressId);
+    if (address && address.userId === userId) {
+      address.isDefault = true;
+      this.addresses.set(addressId, address);
+    }
+  }
+  
   // Product methods
   async getProduct(id: number): Promise<Product | undefined> {
     return this.products.get(id);
@@ -350,7 +444,8 @@ export class MemStorage implements IStorage {
       id, 
       status: "pending", 
       createdAt: new Date(),
-      notes: insertOrder.notes || null
+      notes: insertOrder.notes || null,
+      addressId: insertOrder.addressId || null
     };
     
     this.orders.set(id, order);

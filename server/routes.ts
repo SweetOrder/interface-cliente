@@ -5,7 +5,8 @@ import {
   insertUserSchema, 
   insertFavoriteSchema, 
   insertOrderSchema,
-  insertOrderItemSchema
+  insertOrderItemSchema,
+  insertAddressSchema
 } from "@shared/schema";
 import { z } from "zod";
 
@@ -348,6 +349,104 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
     } catch (error) {
       res.status(500).json({ message: "Error retrieving order details" });
+    }
+  });
+  
+  // === Addresses ===
+  
+  // Get user addresses
+  apiRouter.get("/users/:userId/addresses", async (req: Request, res: Response) => {
+    try {
+      const userId = parseInt(req.params.userId);
+      
+      if (isNaN(userId)) {
+        return res.status(400).json({ message: "Invalid user ID" });
+      }
+      
+      const addresses = await storage.getAddressesByUserId(userId);
+      res.status(200).json(addresses);
+    } catch (error) {
+      res.status(500).json({ message: "Error retrieving addresses" });
+    }
+  });
+  
+  // Get address by ID
+  apiRouter.get("/addresses/:id", async (req: Request, res: Response) => {
+    try {
+      const id = parseInt(req.params.id);
+      
+      if (isNaN(id)) {
+        return res.status(400).json({ message: "Invalid address ID" });
+      }
+      
+      const address = await storage.getAddress(id);
+      
+      if (!address) {
+        return res.status(404).json({ message: "Address not found" });
+      }
+      
+      res.status(200).json(address);
+    } catch (error) {
+      res.status(500).json({ message: "Error retrieving address" });
+    }
+  });
+  
+  // Create address
+  apiRouter.post("/addresses", async (req: Request, res: Response) => {
+    try {
+      const addressData = insertAddressSchema.parse(req.body);
+      const address = await storage.createAddress(addressData);
+      res.status(201).json(address);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ message: "Invalid input data", errors: error.errors });
+      }
+      res.status(500).json({ message: "Error creating address" });
+    }
+  });
+  
+  // Update address
+  apiRouter.patch("/addresses/:id", async (req: Request, res: Response) => {
+    try {
+      const id = parseInt(req.params.id);
+      
+      if (isNaN(id)) {
+        return res.status(400).json({ message: "Invalid address ID" });
+      }
+      
+      const address = await storage.getAddress(id);
+      
+      if (!address) {
+        return res.status(404).json({ message: "Address not found" });
+      }
+      
+      const addressData = req.body;
+      const updatedAddress = await storage.updateAddress(id, addressData);
+      res.status(200).json(updatedAddress);
+    } catch (error) {
+      res.status(500).json({ message: "Error updating address" });
+    }
+  });
+  
+  // Delete address
+  apiRouter.delete("/addresses/:id", async (req: Request, res: Response) => {
+    try {
+      const id = parseInt(req.params.id);
+      
+      if (isNaN(id)) {
+        return res.status(400).json({ message: "Invalid address ID" });
+      }
+      
+      const address = await storage.getAddress(id);
+      
+      if (!address) {
+        return res.status(404).json({ message: "Address not found" });
+      }
+      
+      await storage.deleteAddress(id);
+      res.status(204).send();
+    } catch (error) {
+      res.status(500).json({ message: "Error deleting address" });
     }
   });
   
