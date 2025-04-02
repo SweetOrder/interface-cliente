@@ -104,12 +104,21 @@ function Router() {
           </Route>
           <Route path="/account">
             {() => 
-              <Account 
-                user={currentUser} 
-                onLogin={handleLogin} 
-                onLogout={handleLogout}
-                openAuthModal={openAuthModal} 
-              />
+              currentUser ? 
+                <Account 
+                  user={currentUser}
+                  onLogout={handleLogout}
+                /> :
+                <div className="container py-10 text-center">
+                  <h1 className="text-2xl font-bold mb-4">Minha Conta</h1>
+                  <p className="mb-4">Faça login para acessar sua conta</p>
+                  <Button 
+                    onClick={() => openAuthModal('Faça login para acessar sua conta')}
+                    className="bg-[#f74ea7] hover:bg-[#e63d96]"
+                  >
+                    Entrar
+                  </Button>
+                </div>
             }
           </Route>
           <Route path="/menus/:id">
