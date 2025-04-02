@@ -65,7 +65,7 @@ function Router() {
   return (
     <>
       <Header currentUser={currentUser} onLogout={handleLogout} />
-      <main className="md:pt-16 pt-0 pb-12">
+      <main className="page-container md:pt-16 pt-0 pb-12">
         <Switch>
           <Route path="/" component={Home} />
           <Route path="/products" component={Products} />

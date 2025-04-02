@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation } from "wouter";
 import { SweetOrderTextLogo } from "@/lib/sweetorder-text-logo";
-import { Search, Home, BookOpen, Cake, Heart, PackageIcon } from "lucide-react";
+import { Search, Home, BookOpen, Cake, Heart, PackageIcon, User2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/contexts/CartContext";
 import NotificationCenter from "@/components/notifications/NotificationCenter";
@@ -86,6 +86,16 @@ export default function Header({ currentUser, onLogout }: HeaderProps) {
             <NotificationCenter />
             
             <CartDrawer userId={currentUser?.id} variant="desktop" />
+            
+            <Link href="/account">
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="rounded-full hover:bg-gray-100"
+              >
+                <User2 className="h-5 w-5 text-gray-600 hover:text-[#f74ea7]" />
+              </Button>
+            </Link>
           </div>
         </div>
         
@@ -112,6 +122,16 @@ export default function Header({ currentUser, onLogout }: HeaderProps) {
             <NotificationCenter />
             
             <CartDrawer userId={currentUser?.id} variant="mobile" />
+            
+            <Link href="/account">
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="rounded-full h-9 w-9 hover:bg-gray-100"
+              >
+                <User2 className="h-5 w-5 text-gray-600 hover:text-[#f74ea7]" />
+              </Button>
+            </Link>
           </div>
         </div>
       </header>

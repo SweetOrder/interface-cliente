@@ -210,21 +210,12 @@ export default function CartDrawer({ userId, variant = 'desktop' }: CartDrawerPr
             className={`${
               variant === 'desktop' 
                 ? 'rounded-full hover:bg-gray-100' 
-                : 'w-full flex justify-center items-center gap-2 bg-[#f74ea7] text-white hover:bg-[#f74ea7]/90'
+                : 'rounded-full h-9 w-9 hover:bg-gray-100'
             } relative`}
           >
-            <ShoppingCart className={`${
-              variant === 'desktop' 
-                ? 'h-5 w-5 text-gray-600 hover:text-[#f74ea7]' 
-                : 'h-5 w-5 text-white'
-            }`} />
-            {variant === 'mobile' && <span>Carrinho</span>}
+            <ShoppingCart className="h-5 w-5 text-gray-600 hover:text-[#f74ea7]" />
             {items.length > 0 && (
-              <span className={`${
-                variant === 'desktop'
-                  ? 'absolute -top-1 -right-1 bg-[#f74ea7] text-white'
-                  : 'bg-white text-[#f74ea7]'
-                } rounded-full w-5 h-5 flex items-center justify-center text-xs`}>
+              <span className="absolute -top-1 -right-1 bg-[#f74ea7] text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
                 {items.reduce((total, item) => total + item.quantity, 0)}
               </span>
             )}

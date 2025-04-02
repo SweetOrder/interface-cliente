@@ -5,7 +5,7 @@ import { Home, AlertCircle } from "lucide-react";
 
 export default function NotFound() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen px-4 mt-16 md:mt-0">
+    <div className="container flex flex-col items-center justify-center page-container mt-16 md:mt-0">
       <div className="text-center">
         <div className="flex justify-center mb-6">
           <SweetOrderLogo className="w-24 h-24 md:w-32 md:h-32" />

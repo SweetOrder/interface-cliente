@@ -131,7 +131,7 @@ export default function Account({ user, onLogin, onLogout }: AccountProps) {
   
   if (user) {
     return (
-      <div className="container mx-auto px-4 py-6">
+      <div className="container page-container">
         <h1 className="font-playfair text-3xl font-bold mb-6">Minha Conta</h1>
         
         <Tabs defaultValue="profile" className="w-full">
@@ -221,7 +221,7 @@ export default function Account({ user, onLogin, onLogout }: AccountProps) {
   }
   
   return (
-    <div className="container mx-auto px-4 py-6">
+    <div className="container page-container">
       <div className="max-w-md mx-auto">
         <h1 className="font-playfair text-3xl font-bold mb-6">Minha Conta</h1>
         
