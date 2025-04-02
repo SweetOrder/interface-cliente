@@ -102,17 +102,16 @@ export default function Header({ currentUser, onLogout }: HeaderProps) {
         </div>
         
         {/* Mobile Header */}
-        <div className="container flex justify-between items-center py-3 md:hidden">
+        <div className="container flex flex-col py-3 md:hidden">
           {/* Logo centered on mobile */}
-          <div className="w-1/3"></div> {/* Empty div for flex spacing */}
-          <div className="flex justify-center w-1/3">
+          <div className="flex justify-center w-full mb-2">
             <Link href="/">
               <SweetOrderTextLogo className="w-auto h-7" />
             </Link>
           </div>
           
-          {/* Icons on the right for mobile */}
-          <div className="flex items-center justify-end space-x-4 w-1/3">
+          {/* Icons below the logo for mobile */}
+          <div className="flex items-center justify-center space-x-6 w-full mt-1">
             <Button 
               variant="ghost" 
               size="icon" 
