@@ -49,7 +49,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "Username and password are required" });
       }
       
-      const user = await storage.getUserByUsername(username);
+      // Try to find user by username or email
+      let user = await storage.getUserByUsername(username);
+      
+      // If not found by username, check if it's an email address
+      if (!user && username.includes('@')) {
+        // Find all users and check if any has the provided email
+        const allUsers = await Promise.all(
+          Array.from(storage.users.values())
+            .map(async (u) => await storage.getUser(u.id))
+        );
+        
+        user = allUsers.find(u => u?.email === username);
+      }
       
       if (!user || user.password !== password) {
         return res.status(401).json({ message: "Invalid credentials" });

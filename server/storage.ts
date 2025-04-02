@@ -14,6 +14,7 @@ export interface IStorage {
   getUser(id: number): Promise<User | undefined>;
   getUserByUsername(username: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
+  users: Map<number, User>;
   
   // Address methods
   createAddress(address: InsertAddress): Promise<Address>;
@@ -55,7 +56,7 @@ export interface IStorage {
 }
 
 export class MemStorage implements IStorage {
-  private users: Map<number, User>;
+  public users: Map<number, User>;
   private addresses: Map<number, Address>;
   private products: Map<number, Product>;
   private menus: Map<number, Menu>;
@@ -103,6 +104,13 @@ export class MemStorage implements IStorage {
         username: "admin",
         password: "admin123",
         name: "Administrador",
+        email: "admin@sweetorder.com",
+        whatsapp: "11999998888"
+      },
+      {
+        username: "admin@sweetorder.com",
+        password: "admin123",
+        name: "Administrador via Email",
         email: "admin@sweetorder.com",
         whatsapp: "11999998888"
       },
