@@ -1,11 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Product } from "@/lib/types";
-import { Heart } from "lucide-react";
+import { Heart, ShoppingCart, Check } from "lucide-react";
 import { useLocation } from "wouter";
 import { useFavorites } from "@/contexts/FavoritesContext";
 import { useCart } from "@/contexts/CartContext";
 import { formatCurrency } from "@/lib/utils";
+import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
 
 interface ProductCardProps {
   product: Product;
@@ -27,6 +29,8 @@ export default function ProductCard({
   const [_, navigate] = useLocation();
   const { toggleFavorite } = useFavorites();
   const { addToCart, openProductDetails } = useCart();
+  const { toast } = useToast();
+  const [addedToCart, setAddedToCart] = useState(false);
   
   const handleCardClick = () => {
     if (onClick) {
@@ -63,6 +67,21 @@ export default function ProductCard({
         product,
         quantity: 1
       });
+      
+      // Mostrar feedback visual
+      setAddedToCart(true);
+      
+      // Mostrar toast de confirmação
+      toast({
+        title: "Produto adicionado",
+        description: `${product.name} foi adicionado ao seu carrinho.`,
+        duration: 3000,
+      });
+      
+      // Resetar o estado após um tempo
+      setTimeout(() => {
+        setAddedToCart(false);
+      }, 1500);
     }
   };
   
@@ -95,9 +114,24 @@ export default function ProductCard({
           <Button 
             size="sm"
             onClick={handleAddToCart}
-            className="text-[10px] sm:text-xs px-2 sm:px-3 py-1 rounded-full bg-[#f74ea7] hover:bg-[#e63d96] text-white"
+            className={`text-[10px] sm:text-xs px-2 sm:px-3 py-1 rounded-full flex items-center transition-all duration-300 ${
+              addedToCart 
+                ? 'bg-green-500 hover:bg-green-600' 
+                : 'bg-[#f74ea7] hover:bg-[#e63d96]'
+            } text-white`}
+            disabled={addedToCart}
           >
-            Adicionar
+            {addedToCart ? (
+              <>
+                <Check className="mr-1 h-3 w-3" />
+                Adicionado
+              </>
+            ) : (
+              <>
+                <ShoppingCart className="mr-1 h-3 w-3" />
+                Adicionar
+              </>
+            )}
           </Button>
         </div>
       </div>

@@ -127,7 +127,8 @@ export default function CheckoutDialog({ open, onOpenChange, userId }: CheckoutD
       
       // Abre WhatsApp com as informações do pedido
       const whatsappMessage = generateWhatsAppMessage(orderData, order.id);
-      window.open(`https://wa.me/+5511999999999?text=${encodeURIComponent(whatsappMessage)}`, '_blank');
+      // Número de telefone da confeitaria (formato internacional com código do país)
+      window.open(`https://wa.me/+5511987654321?text=${encodeURIComponent(whatsappMessage)}`, '_blank');
       
     } catch (error) {
       console.error("Erro ao criar pedido:", error);
