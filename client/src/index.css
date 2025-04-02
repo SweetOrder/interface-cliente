@@ -77,15 +77,15 @@
   #root {
     display: flex;
     flex-direction: column;
-    height: 100%;
+    min-height: 100%;
     overflow-y: auto;
     overflow-x: hidden;
-    padding-top: 120px; /* Adiciona espaço para o cabeçalho fixo em dispositivos móveis */
+    padding-top: 100px; /* Adiciona espaço para o cabeçalho fixo em dispositivos móveis */
   }
   
   @media (min-width: 768px) {
     #root {
-      padding-top: 70px; /* Menos espaço em telas maiores para ter o mesmo padding em cima e embaixo */
+      padding-top: 60px; /* Menos espaço em telas maiores */
     }
   }
   
@@ -102,7 +102,7 @@
   }
   
   .page-container {
-    @apply min-h-[calc(100vh-250px)] md:min-h-[calc(100vh-200px)];
+    @apply flex-grow;
   }
   
   .hide-scrollbar::-webkit-scrollbar {

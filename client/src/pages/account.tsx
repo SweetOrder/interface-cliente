@@ -17,6 +17,7 @@ interface AccountProps {
   user: User | null;
   onLogin: (user: User) => void;
   onLogout: () => void;
+  openAuthModal?: (message: string) => void;
 }
 
 // Login form schema
@@ -38,7 +39,7 @@ const registerSchema = z.object({
   path: ["confirmPassword"],
 });
 
-export default function Account({ user, onLogin, onLogout }: AccountProps) {
+export default function Account({ user, onLogin, onLogout, openAuthModal }: AccountProps) {
   const [_, navigate] = useLocation();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
@@ -220,161 +221,68 @@ export default function Account({ user, onLogin, onLogout }: AccountProps) {
     );
   }
   
+  // Para usuários não autenticados, mostra uma interface simplificada
   return (
     <div className="container page-container">
       <div className="max-w-md mx-auto">
-        <h1 className="font-playfair text-3xl font-bold mb-6">Minha Conta</h1>
+        <h1 className="text-3xl font-bold mb-6">Minha Conta</h1>
         
-        <Tabs defaultValue="login" className="w-full">
-          <TabsList className="grid w-full grid-cols-2 mb-6">
-            <TabsTrigger value="login" id="login-tab">Login</TabsTrigger>
-            <TabsTrigger value="register">Cadastro</TabsTrigger>
-          </TabsList>
-          
-          <TabsContent value="login">
-            <div className="bg-white rounded-lg shadow-md p-6">
-              <Form {...loginForm}>
-                <form onSubmit={loginForm.handleSubmit(handleLogin)} className="space-y-4">
-                  <FormField
-                    control={loginForm.control}
-                    name="username"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Nome de usuário</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Digite seu nome de usuário" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  
-                  <FormField
-                    control={loginForm.control}
-                    name="password"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Senha</FormLabel>
-                        <FormControl>
-                          <Input type="password" placeholder="Digite sua senha" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  
-                  <Button 
-                    type="submit" 
-                    className="w-full bg-[#f74ea7] hover:bg-[#e63d96] text-white"
-                    disabled={isLoading}
-                  >
-                    {isLoading ? "Entrando..." : "Entrar"}
-                  </Button>
-                </form>
-              </Form>
+        <div className="bg-white rounded-lg shadow-md p-8 text-center">
+          <div className="flex flex-col items-center justify-center mb-6">
+            <div className="bg-[#f4f4f4] h-24 w-24 rounded-full flex items-center justify-center mb-4">
+              <UserIcon className="h-12 w-12 text-[#999999]" />
             </div>
-          </TabsContent>
+            <h2 className="text-xl font-semibold mb-2">Acesse sua conta</h2>
+            <p className="text-gray-500 mb-6">Entre para gerenciar seus pedidos, endereços e favoritos</p>
+          </div>
           
-          <TabsContent value="register">
-            <div className="bg-white rounded-lg shadow-md p-6">
-              <Form {...registerForm}>
-                <form onSubmit={registerForm.handleSubmit(handleRegister)} className="space-y-4">
-                  <FormField
-                    control={registerForm.control}
-                    name="username"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Nome de usuário</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Escolha um nome de usuário" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  
-                  <FormField
-                    control={registerForm.control}
-                    name="name"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Nome completo</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Digite seu nome completo" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  
-                  <FormField
-                    control={registerForm.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Email</FormLabel>
-                        <FormControl>
-                          <Input type="email" placeholder="Digite seu email" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  
-                  <FormField
-                    control={registerForm.control}
-                    name="whatsapp"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>WhatsApp</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Ex: (11) 99999-9999" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  
-                  <FormField
-                    control={registerForm.control}
-                    name="password"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Senha</FormLabel>
-                        <FormControl>
-                          <Input type="password" placeholder="Escolha uma senha forte" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  
-                  <FormField
-                    control={registerForm.control}
-                    name="confirmPassword"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Confirmar senha</FormLabel>
-                        <FormControl>
-                          <Input type="password" placeholder="Confirme sua senha" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  
-                  <Button 
-                    type="submit" 
-                    className="w-full bg-[#f74ea7] hover:bg-[#e63d96] text-white"
-                    disabled={isLoading}
-                  >
-                    {isLoading ? "Cadastrando..." : "Cadastrar"}
-                  </Button>
-                </form>
-              </Form>
+          <div className="space-y-4">
+            <Button 
+              onClick={() => openAuthModal && openAuthModal('Faça login para acessar sua conta')}
+              className="w-full bg-[#f74ea7] hover:bg-[#e63d96] text-white"
+            >
+              Entrar
+            </Button>
+            
+            <Button 
+              onClick={() => {
+                openAuthModal && openAuthModal('Crie sua conta SweetOrder');
+                // Aguardar a abertura do modal e então clicar na aba de registro
+                setTimeout(() => {
+                  document.querySelector('[value="register"]')?.dispatchEvent(
+                    new MouseEvent('click', { bubbles: true })
+                  );
+                }, 100);
+              }}
+              variant="outline"
+              className="w-full border-[#f74ea7] text-[#f74ea7] hover:bg-[#f74ea7]/10"
+            >
+              Criar conta
+            </Button>
+          </div>
+          
+          <div className="mt-8 pt-6 border-t border-gray-100">
+            <h3 className="text-sm font-medium text-gray-700 mb-4">Acesso rápido</h3>
+            <div className="grid grid-cols-2 gap-3">
+              <Button
+                variant="outline"
+                size="sm"
+                className="text-sm"
+                onClick={() => navigate('/products')}
+              >
+                Ver produtos
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                className="text-sm"
+                onClick={() => navigate('/menus')}
+              >
+                Ver cardápios
+              </Button>
             </div>
-          </TabsContent>
-        </Tabs>
+          </div>
+        </div>
       </div>
     </div>
   );

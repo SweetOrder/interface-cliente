@@ -65,7 +65,7 @@ function Router() {
   return (
     <>
       <Header currentUser={currentUser} onLogout={handleLogout} />
-      <main className="page-container md:pt-16 pt-0 pb-12">
+      <main className="page-container md:pt-10 pt-6 pb-8">
         <Switch>
           <Route path="/" component={Home} />
           <Route path="/products" component={Products} />
@@ -103,7 +103,14 @@ function Router() {
             }
           </Route>
           <Route path="/account">
-            {() => <Account user={currentUser} onLogin={handleLogin} onLogout={handleLogout} />}
+            {() => 
+              <Account 
+                user={currentUser} 
+                onLogin={handleLogin} 
+                onLogout={handleLogout}
+                openAuthModal={openAuthModal} 
+              />
+            }
           </Route>
           <Route path="/menus/:id">
             {params => <MenuDetails id={parseInt(params.id)} />}
