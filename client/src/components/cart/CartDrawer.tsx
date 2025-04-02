@@ -19,9 +19,10 @@ import { apiRequest } from "@/lib/queryClient";
 
 interface CartDrawerProps {
   userId?: number;
+  variant?: 'desktop' | 'mobile';
 }
 
-export default function CartDrawer({ userId }: CartDrawerProps) {
+export default function CartDrawer({ userId, variant = 'desktop' }: CartDrawerProps) {
   const { items, toggleCartOpen, isCartOpen, updateItemQuantity, updateItemNotes, removeItem, clearCart, addToCart } = useCart();
   const [checkoutOpen, setCheckoutOpen] = useState(false);
   
@@ -200,19 +201,34 @@ export default function CartDrawer({ userId }: CartDrawerProps) {
   
   return (
     <>
-      <Sheet 
-        open={isCartOpen} 
-        onOpenChange={(open) => {
-          console.log("Sheet onOpenChange chamado com valor:", open);
-          console.log("isCartOpen atual:", isCartOpen);
-          // Se for para abrir ou fechar, atualizamos o estado diretamente
-          if (open !== isCartOpen) {
-            if (!open) {
-              resetCheckoutForm();
-            }
-            toggleCartOpen();
-          }
-        }}>
+      <Sheet>
+        <SheetTrigger asChild>
+          <Button 
+            variant="ghost" 
+            size="icon"
+            className={`${
+              variant === 'desktop' 
+                ? 'rounded-full hover:bg-gray-100' 
+                : 'w-full flex justify-center items-center gap-2 bg-[#f74ea7] text-white hover:bg-[#f74ea7]/90'
+            } relative`}
+          >
+            <ShoppingCart className={`${
+              variant === 'desktop' 
+                ? 'h-5 w-5 text-gray-600 hover:text-[#f74ea7]' 
+                : 'h-5 w-5 text-white'
+            }`} />
+            {variant === 'mobile' && <span>Carrinho</span>}
+            {items.length > 0 && (
+              <span className={`${
+                variant === 'desktop'
+                  ? 'absolute -top-1 -right-1 bg-[#f74ea7] text-white'
+                  : 'bg-white text-[#f74ea7]'
+                } rounded-full w-5 h-5 flex items-center justify-center text-xs`}>
+                {items.reduce((total, item) => total + item.quantity, 0)}
+              </span>
+            )}
+          </Button>
+        </SheetTrigger>
         <SheetContent className="w-[85vw] max-w-md sm:max-w-lg overflow-y-auto">
           <SheetHeader className="pb-4">
             <SheetTitle className="flex items-center">

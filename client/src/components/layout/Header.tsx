@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation } from "wouter";
 import { SweetOrderTextLogo } from "@/lib/sweetorder-text-logo";
-import { ShoppingCart, Search, Home, BookOpen, Cake, Heart, PackageIcon, Bell } from "lucide-react";
+import { Search, Home, BookOpen, Cake, Heart, PackageIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/contexts/CartContext";
 import NotificationCenter from "@/components/notifications/NotificationCenter";
@@ -85,22 +85,7 @@ export default function Header({ currentUser, onLogout }: HeaderProps) {
             
             <NotificationCenter />
             
-            <Button 
-              onClick={() => {
-                console.log("Clicou no ícone do carrinho");
-                toggleCartOpen();
-              }}
-              variant="ghost" 
-              size="icon"
-              className="rounded-full hover:bg-gray-100 relative"
-            >
-              <ShoppingCart className="h-5 w-5 text-gray-600 hover:text-[#f74ea7]" />
-              {cartItemCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-[#f74ea7] text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
-                  {cartItemCount}
-                </span>
-              )}
-            </Button>
+            <CartDrawer userId={currentUser?.id} variant="desktop" />
           </div>
         </div>
         
@@ -126,31 +111,13 @@ export default function Header({ currentUser, onLogout }: HeaderProps) {
             
             <NotificationCenter />
             
-            <Button 
-              onClick={() => {
-                console.log("Clicou no ícone do carrinho (mobile)");
-                toggleCartOpen();
-              }}
-              variant="ghost" 
-              size="icon"
-              className="rounded-full h-9 w-9 hover:bg-gray-100 relative"
-            >
-              <ShoppingCart className="h-5 w-5 text-gray-600 hover:text-[#f74ea7]" />
-              {cartItemCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-[#f74ea7] text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
-                  {cartItemCount}
-                </span>
-              )}
-            </Button>
+            <CartDrawer userId={currentUser?.id} variant="mobile" />
           </div>
         </div>
       </header>
       
       {/* Search Dialog */}
       <SearchDialog open={searchOpen} onOpenChange={setSearchOpen} />
-      
-      {/* Cart Drawer */}
-      <CartDrawer userId={currentUser?.id} />
     </>
   );
 }
