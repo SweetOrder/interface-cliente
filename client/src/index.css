@@ -75,6 +75,13 @@
     height: 100%;
     overflow-y: auto;
     overflow-x: hidden;
+    padding-top: 120px; /* Adiciona espaço para o cabeçalho fixo em dispositivos móveis */
+  }
+  
+  @media (min-width: 768px) {
+    #root {
+      padding-top: 80px; /* Menos espaço em telas maiores */
+    }
   }
   
   body, p, span, div, a, input, textarea, select, button {

@@ -2,7 +2,6 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 import { CartItem, Product } from "@/lib/types";
 import { useToast } from "@/hooks/use-toast";
 import ProductDetailsModal from "@/components/ui/product-details-modal";
-import CartDrawer from "@/components/ui/cart-drawer";
 
 interface CartContextType {
   items: CartItem[];
@@ -99,7 +98,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
   
   const toggleCartOpen = () => {
-    setIsCartOpen(!isCartOpen);
+    setIsCartOpen(prevState => !prevState);
   };
   
   const openProductDetails = (product: Product) => {
@@ -126,7 +125,6 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }}
     >
       {children}
-      <CartDrawer />
       <ProductDetailsModal 
         product={selectedProduct} 
         isOpen={productDetailsOpen} 

@@ -208,10 +208,12 @@ export default function CartDrawer({ userId }: CartDrawerProps) {
   return (
     <>
       <Sheet open={isCartOpen} onOpenChange={(open) => {
+        // Importante: Só alteramos o estado quando for para fechar
+        // Para abrir, deixamos o controle com o toggleCartOpen
         if (!open) {
           resetCheckoutForm();
+          toggleCartOpen();
         }
-        toggleCartOpen();
       }}>
         <SheetContent className="w-[85vw] max-w-md sm:max-w-lg overflow-y-auto">
           <SheetHeader className="pb-4">

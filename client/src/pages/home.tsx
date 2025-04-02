@@ -37,7 +37,10 @@ export default function Home() {
   return (
     <div className="container mx-auto px-4 mt-4">
       <Hero />
-      <FavoriteSection userId={userId} />
+      <FavoriteSection 
+        userId={userId} 
+        onAuthRequired={() => openAuthModal("Faça login para ver seus produtos favoritos")} 
+      />
       <MenuSection />
       <ProductSection 
         isAuthenticated={!!userId}
