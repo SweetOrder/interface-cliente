@@ -22,7 +22,7 @@ interface CartDrawerProps {
 }
 
 export default function CartDrawer({ userId }: CartDrawerProps) {
-  const { items, toggleCartOpen, isCartOpen, updateItemQuantity, removeItem, clearCart } = useCart();
+  const { items, toggleCartOpen, isCartOpen, updateItemQuantity, removeItem, clearCart, addToCart } = useCart();
   const [checkoutOpen, setCheckoutOpen] = useState(false);
   
   // Estados para finalização do pedido
@@ -55,8 +55,10 @@ export default function CartDrawer({ userId }: CartDrawerProps) {
     };
     // Como não existe um método específico para atualizar as notas,
     // usamos o fato de que os itens são passados por referência e recriamos o item
+    const currentItem = { ...updatedItems[index] };
     removeItem(index);
-    useCart().addToCart(updatedItems[index]);
+    // Não use useCart() aqui diretamente - use a referência que já extraímos
+    addToCart(currentItem);
   };
   
   // Limpa o formulário quando o modal é fechado
