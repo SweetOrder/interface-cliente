@@ -1,6 +1,6 @@
 import { Link, useLocation } from "wouter";
-import { SweetOrderLogo } from "@/lib/sweetorder-logo";
-import { ShoppingCart } from "lucide-react";
+import { SweetOrderTextLogo } from "@/lib/sweetorder-text-logo";
+import { ShoppingCart, Search, Bell, Home, BookOpen, Cake, Heart, PackageIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/contexts/CartContext";
 import { User } from "@/lib/types";
@@ -17,57 +17,115 @@ export default function Header({ currentUser, onLogout }: HeaderProps) {
   // Calculate total items in cart
   const cartItemCount = items.reduce((total, item) => total + item.quantity, 0);
   
+  // Define the active style for navigation items
+  const activeStyle = "text-pink-500";
+  const hoverStyle = "hover:text-pink-500 transition-colors";
+  
   return (
-    <header className="fixed top-0 w-full bg-white shadow-sm z-50 hidden md:block">
-      <div className="container mx-auto px-4 py-3 flex justify-between items-center">
+    <header className="fixed top-0 w-full bg-white shadow-sm z-50">
+      {/* Desktop Header */}
+      <div className="container mx-auto px-4 py-3 hidden md:flex justify-between items-center">
+        {/* Logo on the left */}
         <div className="flex items-center">
           <Link href="/">
-            <a className="flex items-center">
-              <SweetOrderLogo className="h-10 w-auto" />
-              <span className="ml-2 font-playfair font-bold text-2xl">SweetOrder</span>
-            </a>
+            <SweetOrderTextLogo />
           </Link>
         </div>
-        <nav className="hidden md:flex items-center space-x-8 font-montserrat text-sm font-medium">
+        
+        {/* Navigation in the center */}
+        <nav className="flex items-center space-x-8 font-montserrat text-sm font-medium">
           <Link href="/">
-            <a className={`hover:text-[#f74ea7] transition-colors ${location === '/' ? 'text-[#f74ea7]' : ''}`}>
-              Home
-            </a>
-          </Link>
-          <Link href="/my-orders">
-            <a className={`hover:text-[#f74ea7] transition-colors ${location === '/my-orders' ? 'text-[#f74ea7]' : ''}`}>
-              Meus Pedidos
-            </a>
+            <div className={`${hoverStyle} ${location === '/' ? activeStyle : ''} flex items-center cursor-pointer`}>
+              <Home className="h-4 w-4 mr-1" />
+              <span>Home</span>
+            </div>
           </Link>
           <Link href="/menus">
-            <a className={`hover:text-[#f74ea7] transition-colors ${location === '/menus' ? 'text-[#f74ea7]' : ''}`}>
-              Cardápios
-            </a>
+            <div className={`${hoverStyle} ${location === '/menus' ? activeStyle : ''} flex items-center cursor-pointer`}>
+              <BookOpen className="h-4 w-4 mr-1" />
+              <span>Cardápios</span>
+            </div>
           </Link>
           <Link href="/products">
-            <a className={`hover:text-[#f74ea7] transition-colors ${location === '/products' ? 'text-[#f74ea7]' : ''}`}>
-              Produtos
-            </a>
+            <div className={`${hoverStyle} ${location === '/products' ? activeStyle : ''} flex items-center cursor-pointer`}>
+              <Cake className="h-4 w-4 mr-1" />
+              <span>Produtos</span>
+            </div>
           </Link>
           <Link href="/account">
-            <a className={`hover:text-[#f74ea7] transition-colors ${location === '/account' ? 'text-[#f74ea7]' : ''}`}>
-              Conta
-            </a>
+            <div className={`${hoverStyle} ${location.includes('/account') && location !== '/account/favorites' ? activeStyle : ''} flex items-center cursor-pointer`}>
+              <Heart className="h-4 w-4 mr-1" />
+              <span>Favoritos</span>
+            </div>
           </Link>
+          <Link href="/my-orders">
+            <div className={`${hoverStyle} ${location === '/my-orders' ? activeStyle : ''} flex items-center cursor-pointer`}>
+              <PackageIcon className="h-4 w-4 mr-1" />
+              <span>Pedidos</span>
+            </div>
+          </Link>
+        </nav>
+        
+        {/* Icons on the right */}
+        <div className="flex items-center space-x-4">
+          <Button variant="ghost" size="icon" className="rounded-full">
+            <Search className="h-5 w-5 text-gray-600" />
+          </Button>
+          
+          <Button variant="ghost" size="icon" className="rounded-full">
+            <Bell className="h-5 w-5 text-gray-600" />
+          </Button>
           
           <Button 
             onClick={toggleCartOpen}
             variant="ghost" 
-            className="flex items-center bg-[#f4f4f4] rounded-full px-3 py-2 hover:bg-gray-200"
+            size="icon"
+            className="rounded-full relative"
           >
-            <ShoppingCart className="h-5 w-5 text-[#f74ea7] mr-2" />
+            <ShoppingCart className="h-5 w-5 text-gray-600" />
             {cartItemCount > 0 && (
-              <span className="bg-[#f74ea7] text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
+              <span className="absolute -top-1 -right-1 bg-pink-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
                 {cartItemCount}
               </span>
             )}
           </Button>
-        </nav>
+        </div>
+      </div>
+      
+      {/* Mobile Header */}
+      <div className="container mx-auto px-4 py-3 flex justify-between items-center md:hidden">
+        {/* Logo centered on mobile */}
+        <div className="w-1/3"></div> {/* Empty div for flex spacing */}
+        <div className="flex justify-center w-1/3">
+          <Link href="/">
+            <SweetOrderTextLogo className="text-2xl" />
+          </Link>
+        </div>
+        
+        {/* Icons on the right for mobile */}
+        <div className="flex items-center justify-end space-x-2 w-1/3">
+          <Button variant="ghost" size="icon" className="rounded-full">
+            <Search className="h-5 w-5 text-gray-600" />
+          </Button>
+          
+          <Button variant="ghost" size="icon" className="rounded-full">
+            <Bell className="h-5 w-5 text-gray-600" />
+          </Button>
+          
+          <Button 
+            onClick={toggleCartOpen}
+            variant="ghost" 
+            size="icon"
+            className="rounded-full relative"
+          >
+            <ShoppingCart className="h-5 w-5 text-gray-600" />
+            {cartItemCount > 0 && (
+              <span className="absolute -top-1 -right-1 bg-pink-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
+                {cartItemCount}
+              </span>
+            )}
+          </Button>
+        </div>
       </div>
     </header>
   );

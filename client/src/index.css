@@ -59,11 +59,11 @@
     @apply font-nunito antialiased bg-background text-foreground;
   }
   
-  h1, h2, h3 {
-    @apply font-playfair font-bold;
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-montserrat font-bold;
   }
   
-  h4, h5, h6, button, .btn {
+  button, .btn {
     @apply font-montserrat;
   }
   
