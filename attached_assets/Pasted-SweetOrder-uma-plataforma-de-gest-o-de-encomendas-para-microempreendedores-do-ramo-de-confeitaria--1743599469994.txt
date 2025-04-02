@@ -1,0 +1,135 @@
+SweetOrder é uma plataforma de gestão de encomendas para microempreendedores do ramo de confeitaria e salgateria. O sistema permite que os clientes visualizem cardápios personalizados, escolham produtos, adicionem itens ao pedido e finalizem a encomenda de forma prática.
+
+Diferente de uma loja tradicional com estoque, o SweetOrder foca exclusivamente em pedidos sob encomenda, garantindo que os clientes escolham exatamente o que desejam para uma data específica.
+
+✅ Interface do Cliente: Onde os clientes exploram cardápios, favoritam produtos e realizam pedidos de forma intuitiva.
+
+🎨 Guia de Estilo: Identidade Visual do SweetOrder
+Cores
+Sweet (Rosa Principal - #f74ea7) → Destaques e botões.
+
+Order (Verde-água - #4ECDC4) → Ícones de sucesso e complementos.
+
+Neutros:
+
+Branco (#ffffff) → Fundo principal.
+
+Preto Suave (#212529) → Rodapé e cabeçalhos.
+
+Cinza Escuro (#333333) → Textos principais.
+
+Cinza Médio (#555555) → Textos do corpo.
+
+Cinza Claro (#f4f4f4) → Fundo alternativo e separadores.
+
+Feedback:
+
+Sucesso: #4ECDC4
+
+Erro: #ff3b30
+
+Tipografia
+Fonte Padrão:
+
+Nunito → Para todo o texto.
+
+Montserrat → Para rótulos e botões.
+
+Playfair Display → Para títulos principais.
+
+📌 Hierarquia de Texto
+
+H1 (Título Principal): Playfair Display, 48px, Bold.
+
+H2 (Títulos de Seção): Playfair Display, 36px, Bold.
+
+H3 (Subtítulos): Playfair Display, 24px, Bold.
+
+H4 (Títulos Menores): Montserrat, 18px, Semibold.
+
+Corpo de Texto: Nunito, 16px, Regular.
+
+Textos Pequenos: Nunito, 14px, Regular.
+
+🛠️ Funcionalidades da Interface do Cliente
+1️⃣ Tela Inicial (Home)
+
+Seção de Favoritos → Mostra os produtos marcados como favoritos pelo cliente.
+
+Seção "Todos os Produtos" → Exibe todos os produtos, com filtros por categoria.
+
+Seção "Cardápios Disponíveis" → Lista todos os cardápios.
+
+Botões "Ver Mais" → Leva para as telas de produtos ou cardápios.
+
+2️⃣ Navegação e Menu
+O menu principal contém:
+
+Home
+
+Meus Pedidos
+
+Cardápios
+
+Produtos
+
+Conta
+
+3️⃣ Exploração de Produtos e Cardápios
+
+Abas separadas para navegação:
+
+Cardápios: Lista de cardápios disponíveis.
+
+Produtos: Lista completa de produtos, com filtros.
+
+Cada produto deve conter:
+
+Nome
+
+Imagem
+
+Descrição
+
+Preço (ou "Padrão" caso não tenha variação)
+
+Tamanhos disponíveis (se aplicável)
+
+Botão de Favoritar
+
+4️⃣ Favoritos
+
+Opção para favoritar/desfavoritar um produto.
+
+Página dedicada para favoritos.
+
+Aparece na Home caso o cliente tenha favoritos.
+
+5️⃣ Adição de Produtos ao Pedido
+
+Opção de adicionar produtos ao pedido diretamente da listagem.
+
+Seleção de tamanho (se aplicável).
+
+6️⃣ Resumo e Finalização do Pedido
+
+Tela com os produtos selecionados e detalhes do pedido.
+
+Confirmação do pedido e envio via WhatsApp.
+
+7️⃣ Histórico de Pedidos
+
+Página com pedidos anteriores.
+
+8️⃣ Área do Cliente (Conta)
+
+Permite edição de nome, email e WhatsApp.
+
+🔄 Consistência com o Painel Admin
+Mesma estilização para manter identidade visual.
+
+Layout responsivo para dispositivos móveis e desktop.
+
+Uso consistente das cores e fontes.
+
+🎯 Objetivo: Criar uma experiência intuitiva, moderna e alinhada com o SweetOrder, garantindo que os clientes possam navegar, favoritar e realizar pedidos com facilidade.
