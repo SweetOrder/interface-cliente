@@ -1,7 +1,8 @@
-import { Switch, Route } from "wouter";
+import { Switch, Route, useLocation } from "wouter";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./lib/queryClient";
 import { Toaster } from "@/components/ui/toaster";
+import { Button } from "@/components/ui/button";
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/home";
 import Products from "@/pages/products";
@@ -13,11 +14,15 @@ import ProductDetails from "@/pages/product-details";
 import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
 import MobileNavigation from "./components/layout/MobileNavigation";
+import AuthModal from "@/components/auth/AuthModal";
 import { useEffect, useState } from "react";
 import { User } from "./lib/types";
 
 function Router() {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [authModalOpen, setAuthModalOpen] = useState(false);
+  const [authCallbackMessage, setAuthCallbackMessage] = useState<string | undefined>(undefined);
+  const [location] = useLocation();
 
   // Check if user is logged in from localStorage on mount
   useEffect(() => {
@@ -41,6 +46,18 @@ function Router() {
     setCurrentUser(null);
     localStorage.removeItem("currentUser");
   };
+  
+  const openAuthModal = (message?: string) => {
+    setAuthCallbackMessage(message);
+    setAuthModalOpen(true);
+  };
+
+  // Efeito para verificar rotas que precisam de autenticação
+  useEffect(() => {
+    if (location === '/my-orders' && !currentUser) {
+      openAuthModal('Faça login para ver seus pedidos');
+    }
+  }, [location, currentUser]);
 
   return (
     <>
@@ -51,7 +68,20 @@ function Router() {
           <Route path="/products" component={Products} />
           <Route path="/menus" component={Menus} />
           <Route path="/my-orders">
-            {() => <MyOrders userId={currentUser?.id} />}
+            {() => 
+              currentUser ? 
+                <MyOrders userId={currentUser.id} /> :
+                <div className="container py-10 text-center">
+                  <h1 className="text-2xl font-bold mb-4">Área de pedidos</h1>
+                  <p className="mb-4">Faça login para acessar seus pedidos</p>
+                  <Button 
+                    onClick={() => openAuthModal('Faça login para ver seus pedidos')}
+                    className="bg-[#f74ea7] hover:bg-[#e63d96]"
+                  >
+                    Entrar
+                  </Button>
+                </div>
+            }
           </Route>
           <Route path="/account">
             {() => <Account user={currentUser} onLogin={handleLogin} onLogout={handleLogout} />}
@@ -67,6 +97,13 @@ function Router() {
       </main>
       <Footer />
       <MobileNavigation />
+      
+      <AuthModal 
+        open={authModalOpen} 
+        onOpenChange={setAuthModalOpen}
+        onLogin={handleLogin}
+        callbackMessage={authCallbackMessage}
+      />
     </>
   );
 }

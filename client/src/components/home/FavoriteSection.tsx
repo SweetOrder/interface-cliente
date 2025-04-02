@@ -17,7 +17,7 @@ export default function FavoriteSection({ userId }: FavoriteSectionProps) {
     enabled: !!userId,
   });
   
-  // If user is not logged in or no favorites
+  // Se não houver usuário ou não houver produtos favoritos
   if (!userId || isLoading || !favorites || favorites.length === 0) {
     return null;
   }
@@ -31,7 +31,7 @@ export default function FavoriteSection({ userId }: FavoriteSectionProps) {
         </Link>
       </div>
       
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 md:gap-4">
         {favorites.slice(0, 4).map((product) => (
           <ProductCard 
             key={product.id} 

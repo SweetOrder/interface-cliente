@@ -5,12 +5,69 @@ import ProductCard from "@/components/ui/product-card";
 import { Product } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { useFavorites } from "@/contexts/FavoritesContext";
+import { apiRequest } from "@/lib/queryClient";
+import { useToast } from "@/hooks/use-toast";
 
 type Category = 'Todos' | 'Bolos' | 'Doces' | 'Tortas' | 'Salgados' | 'Bebidas';
 
-export default function ProductSection() {
+interface ProductSectionProps {
+  onAuthRequired?: () => void;
+  isAuthenticated?: boolean;
+}
+
+export default function ProductSection({ 
+  onAuthRequired,
+  isAuthenticated = false 
+}: ProductSectionProps) {
   const [selectedCategory, setSelectedCategory] = useState<Category>('Todos');
   const { favoriteIds } = useFavorites();
+  const { toast } = useToast();
+  
+  const handleToggleFavorite = async (productId: number) => {
+    if (!isAuthenticated) {
+      // Se não está autenticado e tenta adicionar/remover favoritos
+      if (onAuthRequired) {
+        onAuthRequired();
+      }
+      return;
+    }
+    
+    // Busca o usuário atual do localStorage
+    const storedUser = localStorage.getItem("currentUser");
+    if (!storedUser) return;
+    
+    try {
+      const user = JSON.parse(storedUser);
+      const userId = user.id;
+      const isFav = favoriteIds.includes(productId);
+      
+      if (isFav) {
+        // Remove dos favoritos
+        await apiRequest("DELETE", `/api/users/${userId}/favorites/${productId}`);
+        toast({
+          title: "Removido dos favoritos",
+          description: "Produto removido dos seus favoritos",
+        });
+      } else {
+        // Adiciona aos favoritos
+        await apiRequest("POST", `/api/users/${userId}/favorites`, { productId });
+        toast({
+          title: "Adicionado aos favoritos",
+          description: "Produto adicionado aos seus favoritos",
+        });
+      }
+      
+      // Força o recarregamento da lista de favoritos
+      window.location.reload();
+    } catch (error) {
+      console.error("Error toggling favorite:", error);
+      toast({
+        title: "Erro",
+        description: "Não foi possível atualizar os favoritos",
+        variant: "destructive",
+      });
+    }
+  };
   
   const { data: allProducts, isLoading } = useQuery<Product[]>({
     queryKey: ['/api/products'],
@@ -75,12 +132,15 @@ export default function ProductSection() {
         </div>
       </div>
       
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 md:gap-4">
         {products.slice(0, 4).map((product) => (
           <ProductCard 
             key={product.id} 
             product={product} 
             isFavorite={favoriteIds.includes(product.id)}
+            isAuthenticated={isAuthenticated}
+            onAuthRequired={onAuthRequired}
+            onToggleFavorite={handleToggleFavorite}
           />
         ))}
       </div>

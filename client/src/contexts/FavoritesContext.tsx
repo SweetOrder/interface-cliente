@@ -6,12 +6,16 @@ interface FavoritesContextType {
   favoriteIds: number[];
   toggleFavorite: (productId: number) => void;
   isFavorite: (productId: number) => boolean;
+  requiresAuth: boolean;
+  setRequiresAuth: (value: boolean) => void;
 }
 
 const FavoritesContext = createContext<FavoritesContextType>({
   favoriteIds: [],
   toggleFavorite: () => {},
   isFavorite: () => false,
+  requiresAuth: false,
+  setRequiresAuth: () => {},
 });
 
 export const useFavorites = () => useContext(FavoritesContext);
@@ -19,6 +23,7 @@ export const useFavorites = () => useContext(FavoritesContext);
 export const FavoritesProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [favoriteIds, setFavoriteIds] = useState<number[]>([]);
   const [userId, setUserId] = useState<number | null>(null);
+  const [requiresAuth, setRequiresAuth] = useState(false);
   const { toast } = useToast();
   
   // Check if user is logged in and load userId
@@ -109,6 +114,13 @@ export const FavoritesProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         });
       }
     } else {
+      // Se o usuário deseja adicionar aos favoritos mas não está logado,
+      // sinalizamos que autenticação é necessária
+      if (!isFav) {
+        setRequiresAuth(true);
+        return;
+      }
+      
       // User is not logged in, use localStorage
       if (isFav) {
         setFavoriteIds(favoriteIds.filter(id => id !== productId));
@@ -136,6 +148,8 @@ export const FavoritesProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         favoriteIds,
         toggleFavorite,
         isFavorite,
+        requiresAuth,
+        setRequiresAuth
       }}
     >
       {children}
