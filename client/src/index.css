@@ -1,0 +1,78 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 47.4% 11.2%;
+    
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 47.4% 11.2%;
+    
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 47.4% 11.2%;
+    
+    --primary: 335 93% 64%;
+    --primary-foreground: 0 0% 100%;
+    
+    --secondary: 171.1 58.4% 56.1%;
+    --secondary-foreground: 0 0% 100%;
+    
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    
+    --destructive: 0 100% 59%;
+    --destructive-foreground: 0 0% 100%;
+    
+    --ring: 335 93% 64%;
+    
+    --chart-1: var(--primary);
+    --chart-2: var(--secondary);
+    --chart-3: 279 37% 54%;
+    --chart-4: 37 70% 53%;
+    --chart-5: 198 94% 37%;
+    
+    --sidebar-background: var(--background);
+    --sidebar-foreground: var(--foreground);
+    --sidebar-primary: 210 55% 15%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 210 55% 20%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: var(--border);
+    --sidebar-ring: var(--primary);
+    
+    --radius: 0.5rem;
+  }
+  
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply font-nunito antialiased bg-background text-foreground;
+  }
+  
+  h1, h2, h3 {
+    @apply font-playfair font-bold;
+  }
+  
+  h4, h5, h6, button, .btn {
+    @apply font-montserrat;
+  }
+  
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
