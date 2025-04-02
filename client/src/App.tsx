@@ -54,8 +54,11 @@ function Router() {
 
   // Efeito para verificar rotas que precisam de autenticação
   useEffect(() => {
-    if (location === '/my-orders' && !currentUser) {
-      openAuthModal('Faça login para ver seus pedidos');
+    if ((location === '/my-orders' || location === '/favoritos') && !currentUser) {
+      const message = location === '/favoritos' 
+        ? 'Faça login para ver seus produtos favoritos' 
+        : 'Faça login para ver seus pedidos';
+      openAuthModal(message);
     }
   }, [location, currentUser]);
 
@@ -76,6 +79,22 @@ function Router() {
                   <p className="mb-4">Faça login para acessar seus pedidos</p>
                   <Button 
                     onClick={() => openAuthModal('Faça login para ver seus pedidos')}
+                    className="bg-[#f74ea7] hover:bg-[#e63d96]"
+                  >
+                    Entrar
+                  </Button>
+                </div>
+            }
+          </Route>
+          <Route path="/favoritos">
+            {() => 
+              currentUser ? 
+                <Products /> :
+                <div className="container py-10 text-center">
+                  <h1 className="text-2xl font-bold mb-4">Meus Favoritos</h1>
+                  <p className="mb-4">Faça login para acessar seus produtos favoritos</p>
+                  <Button 
+                    onClick={() => openAuthModal('Faça login para ver seus favoritos')}
                     className="bg-[#f74ea7] hover:bg-[#e63d96]"
                   >
                     Entrar

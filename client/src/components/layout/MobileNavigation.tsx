@@ -29,8 +29,8 @@ export default function MobileNavigation() {
             <span className="text-xs mt-1 font-montserrat">Produtos</span>
           </div>
         </Link>
-        <Link href="/account">
-          <div className={`flex flex-col items-center py-3 ${location.includes('/account') && location !== '/account/favorites' ? activeClass : inactiveClass} cursor-pointer`}>
+        <Link href="/favoritos">
+          <div className={`flex flex-col items-center py-3 ${location === '/favoritos' ? activeClass : inactiveClass} cursor-pointer`}>
             <Heart className="h-5 w-5" />
             <span className="text-xs mt-1 font-montserrat">Favoritos</span>
           </div>

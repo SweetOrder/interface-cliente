@@ -58,8 +58,8 @@ export default function Header({ currentUser, onLogout }: HeaderProps) {
                 <span>Produtos</span>
               </div>
             </Link>
-            <Link href="/account">
-              <div className={`${hoverStyle} ${location.includes('/account') && location !== '/account/favorites' ? activeStyle : ''} flex items-center cursor-pointer`}>
+            <Link href="/favoritos">
+              <div className={`${hoverStyle} ${location === '/favoritos' ? activeStyle : ''} flex items-center cursor-pointer`}>
                 <Heart className="h-4 w-4 mr-2" />
                 <span>Favoritos</span>
               </div>
