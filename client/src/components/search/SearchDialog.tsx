@@ -75,11 +75,6 @@ export default function SearchDialog({ open, onOpenChange }: SearchDialogProps) 
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogTrigger asChild>
-        <Button variant="ghost" size="icon" className="rounded-full hover:bg-gray-100">
-          <Search className="h-5 w-5 text-gray-600 hover:text-[#f74ea7]" />
-        </Button>
-      </DialogTrigger>
       <DialogContent className="sm:max-w-[500px] p-0">
         <DialogHeader className="px-4 pt-5 pb-0">
           <DialogTitle className="text-lg">Buscar</DialogTitle>
