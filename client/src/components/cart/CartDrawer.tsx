@@ -200,14 +200,19 @@ export default function CartDrawer({ userId }: CartDrawerProps) {
   
   return (
     <>
-      <Sheet open={isCartOpen} onOpenChange={(open) => {
-        // Importante: Só alteramos o estado quando for para fechar
-        // Para abrir, deixamos o controle com o toggleCartOpen
-        if (!open) {
-          resetCheckoutForm();
-          toggleCartOpen();
-        }
-      }}>
+      <Sheet 
+        open={isCartOpen} 
+        onOpenChange={(open) => {
+          console.log("Sheet onOpenChange chamado com valor:", open);
+          console.log("isCartOpen atual:", isCartOpen);
+          // Se for para abrir ou fechar, atualizamos o estado diretamente
+          if (open !== isCartOpen) {
+            if (!open) {
+              resetCheckoutForm();
+            }
+            toggleCartOpen();
+          }
+        }}>
         <SheetContent className="w-[85vw] max-w-md sm:max-w-lg overflow-y-auto">
           <SheetHeader className="pb-4">
             <SheetTitle className="flex items-center">

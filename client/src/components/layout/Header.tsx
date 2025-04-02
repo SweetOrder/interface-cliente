@@ -86,7 +86,10 @@ export default function Header({ currentUser, onLogout }: HeaderProps) {
             <NotificationCenter />
             
             <Button 
-              onClick={toggleCartOpen}
+              onClick={() => {
+                console.log("Clicou no ícone do carrinho");
+                toggleCartOpen();
+              }}
               variant="ghost" 
               size="icon"
               className="rounded-full hover:bg-gray-100 relative"
@@ -124,7 +127,10 @@ export default function Header({ currentUser, onLogout }: HeaderProps) {
             <NotificationCenter />
             
             <Button 
-              onClick={toggleCartOpen}
+              onClick={() => {
+                console.log("Clicou no ícone do carrinho (mobile)");
+                toggleCartOpen();
+              }}
               variant="ghost" 
               size="icon"
               className="rounded-full h-9 w-9 hover:bg-gray-100 relative"

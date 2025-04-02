@@ -109,7 +109,11 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
   
   const toggleCartOpen = () => {
-    setIsCartOpen(prevState => !prevState);
+    console.log("toggleCartOpen chamado, valor atual:", isCartOpen);
+    setIsCartOpen(prevState => {
+      console.log("Alterando isCartOpen de", prevState, "para", !prevState);
+      return !prevState;
+    });
   };
   
   const openProductDetails = (product: Product) => {
