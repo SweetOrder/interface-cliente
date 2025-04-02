@@ -101,7 +101,7 @@ export type Category = 'Todos' | 'Bolos' | 'Doces' | 'Tortas' | 'Salgados' | 'Be
 
 // Form types
 export interface LoginForm {
-  username: string;
+  username: string; // O campo username pode ser tanto o nome de usuário quanto o email
   password: string;
 }
 

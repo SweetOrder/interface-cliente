@@ -47,7 +47,7 @@ export default function AuthModal({ open, onOpenChange, onLogin, callbackMessage
 
   // Login form schema
   const loginSchema = z.object({
-    username: z.string().min(3, "Nome de usuário deve ter no mínimo 3 caracteres"),
+    username: z.string().min(3, "Digite seu usuário ou email"),
     password: z.string().min(6, "Senha deve ter no mínimo 6 caracteres"),
   });
 
@@ -168,9 +168,9 @@ export default function AuthModal({ open, onOpenChange, onLogin, callbackMessage
                   name="username"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Nome de usuário</FormLabel>
+                      <FormLabel>Usuário ou Email</FormLabel>
                       <FormControl>
-                        <Input placeholder="Digite seu nome de usuário" {...field} />
+                        <Input placeholder="Digite seu usuário ou email" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
