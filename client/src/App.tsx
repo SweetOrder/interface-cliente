@@ -11,6 +11,7 @@ import Account from "@/pages/account";
 import MenuDetails from "@/pages/menu-details";
 import ProductDetails from "@/pages/product-details";
 import Header from "./components/layout/Header";
+import Footer from "./components/layout/Footer";
 import MobileNavigation from "./components/layout/MobileNavigation";
 import { useEffect, useState } from "react";
 import { User } from "./lib/types";
@@ -44,7 +45,7 @@ function Router() {
   return (
     <>
       <Header currentUser={currentUser} onLogout={handleLogout} />
-      <main className="md:pt-20 pt-0 pb-20">
+      <main className="md:pt-20 pt-0 pb-16">
         <Switch>
           <Route path="/" component={Home} />
           <Route path="/products" component={Products} />
@@ -64,6 +65,7 @@ function Router() {
           <Route component={NotFound} />
         </Switch>
       </main>
+      <Footer />
       <MobileNavigation />
     </>
   );

@@ -56,15 +56,19 @@
   }
   
   body {
-    @apply font-nunito antialiased bg-background text-foreground;
+    @apply font-montserrat antialiased bg-background text-foreground;
+  }
+  
+  body, p, span, div, a, input, textarea, select, button {
+    @apply font-montserrat;
   }
   
   h1, h2, h3, h4, h5, h6 {
     @apply font-montserrat font-bold;
   }
   
-  button, .btn {
-    @apply font-montserrat;
+  .container {
+    @apply mx-auto px-4 py-3;
   }
   
   .hide-scrollbar::-webkit-scrollbar {
