@@ -23,18 +23,18 @@ export default function Header({ currentUser, onLogout }: HeaderProps) {
   const cartItemCount = items.reduce((total, item) => total + item.quantity, 0);
   
   // Define the active style for navigation items
-  const activeStyle = "text-[#f74ea7]";
+  const activeStyle = "text-[#f74ea7] font-semibold";
   const hoverStyle = "hover:text-[#f74ea7] transition-colors";
   
   return (
     <>
       <header className="fixed top-0 w-full bg-white shadow-sm z-50">
         {/* Desktop Header */}
-        <div className="container hidden md:flex justify-between items-center py-5">
+        <div className="container hidden md:flex justify-between items-center py-3">
           {/* Logo on the left */}
           <div className="flex items-center">
             <Link href="/">
-              <SweetOrderTextLogo className="scale-110" />
+              <SweetOrderTextLogo className="scale-90" />
             </Link>
           </div>
           
@@ -102,17 +102,17 @@ export default function Header({ currentUser, onLogout }: HeaderProps) {
         </div>
         
         {/* Mobile Header */}
-        <div className="container flex justify-between items-center py-4 md:hidden">
+        <div className="container flex justify-between items-center py-3 md:hidden">
           {/* Logo centered on mobile */}
           <div className="w-1/3"></div> {/* Empty div for flex spacing */}
           <div className="flex justify-center w-1/3">
             <Link href="/">
-              <SweetOrderTextLogo className="text-2xl" />
+              <SweetOrderTextLogo className="w-auto h-7" />
             </Link>
           </div>
           
           {/* Icons on the right for mobile */}
-          <div className="flex items-center justify-end space-x-3 w-1/3">
+          <div className="flex items-center justify-end space-x-4 w-1/3">
             <Button 
               variant="ghost" 
               size="icon" 

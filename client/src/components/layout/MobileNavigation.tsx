@@ -5,7 +5,7 @@ export default function MobileNavigation() {
   const [location] = useLocation();
   
   // Define the active style for navigation items
-  const activeClass = "text-pink-500";
+  const activeClass = "text-[#f74ea7] font-semibold";
   const inactiveClass = "text-gray-600";
   
   return (

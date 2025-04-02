@@ -5,9 +5,9 @@ import { Button } from "@/components/ui/button";
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-100 pt-12 pb-6 mt-16">
+    <footer className="bg-gray-100 pt-8 pb-20 md:pb-6 mt-10 md:mt-12">
       <div className="container">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <div className="space-y-4">
             <SweetOrderTextLogo className="h-8 w-auto" />
             <p className="text-gray-600 mt-2 text-sm">
@@ -61,12 +61,12 @@ export default function Footer() {
           </div>
         </div>
         
-        <div className="border-t border-gray-200 mt-10 pt-6">
+        <div className="border-t border-gray-200 mt-8 pt-5">
           <div className="flex flex-col md:flex-row justify-between items-center">
-            <p className="text-gray-500 text-sm">
+            <p className="text-gray-500 text-xs">
               &copy; {new Date().getFullYear()} SweetOrder. Todos os direitos reservados.
             </p>
-            <p className="text-gray-500 text-sm flex items-center mt-2 md:mt-0">
+            <p className="text-gray-500 text-xs flex items-center mt-2 md:mt-0">
               Feito com <Heart className="h-3 w-3 text-[#f74ea7] mx-1" /> para confeiteiros
             </p>
           </div>
