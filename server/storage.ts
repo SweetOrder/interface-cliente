@@ -100,6 +100,13 @@ export class MemStorage implements IStorage {
     // Sample users
     const users: InsertUser[] = [
       {
+        username: "admin",
+        password: "admin123",
+        name: "Administrador",
+        email: "admin@sweetorder.com",
+        whatsapp: "11999998888"
+      },
+      {
         username: "cliente1",
         password: "password123",
         name: "Maria Silva",

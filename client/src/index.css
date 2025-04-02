@@ -85,7 +85,7 @@
   
   @media (min-width: 768px) {
     #root {
-      padding-top: 80px; /* Menos espaço em telas maiores */
+      padding-top: 70px; /* Menos espaço em telas maiores para ter o mesmo padding em cima e embaixo */
     }
   }
   

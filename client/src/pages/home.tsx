@@ -35,7 +35,7 @@ export default function Home() {
   };
   
   return (
-    <div className="container mx-auto px-4 mt-4">
+    <div className="container mx-auto px-4 py-6">
       <Hero />
       <FavoriteSection 
         userId={userId} 
