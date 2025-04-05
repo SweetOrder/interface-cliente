@@ -121,7 +121,7 @@ export default function CartDrawer() {
       <SheetContent className="w-full sm:max-w-md p-0 flex flex-col h-full">
         <div className="p-4 border-b border-gray-200 flex justify-between items-center">
           <SheetHeader className="text-left">
-            <SheetTitle className="font-playfair text-xl font-bold">Seu Pedido</SheetTitle>
+            <SheetTitle className="font-montserrat text-xl font-bold">Seu Pedido</SheetTitle>
           </SheetHeader>
           <Button 
             variant="ghost" 

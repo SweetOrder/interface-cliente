@@ -44,7 +44,7 @@ export default function MenuDetails({ id }: MenuDetailsProps) {
   if (!menu) {
     return (
       <div className="container mx-auto px-4 py-6">
-        <h1 className="font-playfair text-2xl font-bold mb-4">Cardápio não encontrado</h1>
+        <h1 className="font-montserrat text-2xl font-bold mb-4">Cardápio não encontrado</h1>
         <Button 
           onClick={() => navigate('/menus')}
           className="bg-[#f74ea7] hover:bg-[#e63d96] text-white"
@@ -73,12 +73,12 @@ export default function MenuDetails({ id }: MenuDetailsProps) {
           className="w-full h-40 md:h-60 object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[#212529]/80 via-[#212529]/20 to-transparent flex flex-col justify-end p-6">
-          <h1 className="font-playfair text-3xl font-bold text-white">{menu.name}</h1>
+          <h1 className="font-montserrat text-3xl font-bold text-white">{menu.name}</h1>
           <p className="text-white text-sm md:text-base opacity-90 mt-1">{menu.description}</p>
         </div>
       </div>
       
-      <h2 className="font-playfair text-2xl font-bold mb-4">Produtos neste cardápio</h2>
+      <h2 className="font-montserrat text-2xl font-bold mb-4">Produtos neste cardápio</h2>
       
       {!products || products.length === 0 ? (
         <p className="text-gray-500 text-center py-8">Nenhum produto disponível neste cardápio.</p>

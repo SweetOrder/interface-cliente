@@ -27,7 +27,7 @@ export default function Account({ user, onLogout }: AccountProps) {
   if (user) {
     return (
       <div className="container page-container">
-        <h1 className="font-playfair text-3xl font-bold mb-6">Minha Conta</h1>
+        <h1 className="font-montserrat text-3xl font-bold mb-6">Minha Conta</h1>
         
         <Tabs defaultValue="profile" className="w-full">
           <TabsList className="grid grid-cols-3 mb-6">

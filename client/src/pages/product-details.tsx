@@ -109,7 +109,7 @@ export default function ProductDetails({ id }: ProductDetailsProps) {
   if (!product) {
     return (
       <div className="container mx-auto px-4 py-6">
-        <h1 className="font-playfair text-2xl font-bold mb-4">Produto não encontrado</h1>
+        <h1 className="font-montserrat text-2xl font-bold mb-4">Produto não encontrado</h1>
         <Button 
           onClick={() => navigate('/products')}
           className="bg-[#f74ea7] hover:bg-[#e63d96] text-white"
@@ -153,7 +153,7 @@ export default function ProductDetails({ id }: ProductDetailsProps) {
         </div>
         
         <div className="md:w-1/2">
-          <h1 className="font-playfair text-3xl font-bold mb-3">{product.name}</h1>
+          <h1 className="font-montserrat text-3xl font-bold mb-3">{product.name}</h1>
           <p className="text-[#555555] mb-6">{product.description}</p>
           
           {product.hasSizeOptions && (

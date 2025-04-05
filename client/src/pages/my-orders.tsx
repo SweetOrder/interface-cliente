@@ -51,7 +51,7 @@ export default function MyOrders({ userId }: MyOrdersProps) {
       <div className="container mx-auto px-4 py-10">
         <div className="text-center max-w-md mx-auto py-8">
           <ShoppingBag className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-          <h1 className="font-playfair text-2xl font-bold mb-4">Entre para ver seus pedidos</h1>
+          <h1 className="font-montserrat text-2xl font-bold mb-4">Entre para ver seus pedidos</h1>
           <p className="text-gray-500 mb-6">
             Você precisa estar logado para visualizar seu histórico de pedidos.
           </p>
@@ -69,7 +69,7 @@ export default function MyOrders({ userId }: MyOrdersProps) {
   if (isLoading) {
     return (
       <div className="container mx-auto px-4 py-6">
-        <h1 className="font-playfair text-3xl font-bold mb-6">Meus Pedidos</h1>
+        <h1 className="font-montserrat text-3xl font-bold mb-6">Meus Pedidos</h1>
         <div className="space-y-4">
           {[1, 2, 3].map((i) => (
             <div key={i} className="bg-gray-100 rounded-lg h-24 animate-pulse"></div>
@@ -82,7 +82,7 @@ export default function MyOrders({ userId }: MyOrdersProps) {
   if (!orders || orders.length === 0) {
     return (
       <div className="container mx-auto px-4 py-6">
-        <h1 className="font-playfair text-3xl font-bold mb-6">Meus Pedidos</h1>
+        <h1 className="font-montserrat text-3xl font-bold mb-6">Meus Pedidos</h1>
         <div className="text-center py-8">
           <ShoppingBag className="h-16 w-16 text-gray-300 mx-auto mb-4" />
           <p className="text-gray-500 mb-4">Você ainda não fez nenhum pedido.</p>
@@ -99,7 +99,7 @@ export default function MyOrders({ userId }: MyOrdersProps) {
   
   return (
     <div className="container mx-auto px-4 py-6">
-      <h1 className="font-playfair text-3xl font-bold mb-6">Meus Pedidos</h1>
+      <h1 className="font-montserrat text-3xl font-bold mb-6">Meus Pedidos</h1>
       
       <div className="space-y-4">
         {orders.map((order) => {

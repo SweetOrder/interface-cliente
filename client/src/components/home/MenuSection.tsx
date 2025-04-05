@@ -12,7 +12,7 @@ export default function MenuSection() {
     return (
       <section className="mb-10">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="font-playfair text-2xl md:text-3xl font-bold">Cardápios Disponíveis</h2>
+          <h2 className="font-montserrat text-2xl md:text-3xl font-bold">Cardápios Disponíveis</h2>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           {[1, 2, 3].map((i) => (
@@ -27,7 +27,7 @@ export default function MenuSection() {
     return (
       <section className="mb-10">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="font-playfair text-2xl md:text-3xl font-bold">Cardápios Disponíveis</h2>
+          <h2 className="font-montserrat text-2xl md:text-3xl font-bold">Cardápios Disponíveis</h2>
         </div>
         <p className="text-gray-500 text-center py-8">Nenhum cardápio disponível no momento.</p>
       </section>
@@ -37,7 +37,7 @@ export default function MenuSection() {
   return (
     <section className="mb-10">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="font-playfair text-2xl md:text-3xl font-bold">Cardápios Disponíveis</h2>
+        <h2 className="font-montserrat text-2xl md:text-3xl font-bold">Cardápios Disponíveis</h2>
         <Link href="/menus">
           <a className="font-montserrat text-[#f74ea7] font-medium text-sm">Ver todos</a>
         </Link>

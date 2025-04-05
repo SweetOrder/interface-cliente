@@ -6,7 +6,7 @@ export default function Hero() {
   
   return (
     <section className="my-3 md:my-5">
-      <div className="container">
+      <div>
         <div className="relative rounded-xl overflow-hidden mb-3">
           <img
             src="https://images.unsplash.com/photo-1559620192-032c4bc4674e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80"

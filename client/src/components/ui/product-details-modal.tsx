@@ -117,7 +117,7 @@ export default function ProductDetailsModal({
         
         <div className="p-5">
           <DialogHeader>
-            <DialogTitle className="font-playfair text-xl font-bold">{product.name}</DialogTitle>
+            <DialogTitle className="font-montserrat text-xl font-bold">{product.name}</DialogTitle>
           </DialogHeader>
           
           <p className="text-[#555555] mb-4">{product.description}</p>

@@ -53,7 +53,6 @@ export default function AuthModal({ open, onOpenChange, onLogin, callbackMessage
 
   // Register form schema
   const registerSchema = z.object({
-    username: z.string().min(3, "Nome de usuário deve ter no mínimo 3 caracteres"),
     password: z.string().min(6, "Senha deve ter no mínimo 6 caracteres"),
     confirmPassword: z.string().min(6, "Confirme sua senha"),
     name: z.string().min(2, "Nome deve ter no mínimo 2 caracteres"),
@@ -132,7 +131,7 @@ export default function AuthModal({ open, onOpenChange, onLogin, callbackMessage
     } catch (error) {
       toast({
         title: "Erro ao criar conta",
-        description: "Nome de usuário ou email já existe.",
+        description: "Email já cadastrado.",
         variant: "destructive",
       });
     } finally {
@@ -226,20 +225,6 @@ export default function AuthModal({ open, onOpenChange, onLogin, callbackMessage
                         <FormLabel>Nome completo</FormLabel>
                         <FormControl>
                           <Input placeholder="Digite seu nome completo" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={registerForm.control}
-                    name="username"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Nome de usuário</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Escolha um nome de usuário" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>

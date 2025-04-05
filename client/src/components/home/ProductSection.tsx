@@ -84,7 +84,7 @@ export default function ProductSection({
     return (
       <section className="mb-10">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="font-playfair text-2xl md:text-3xl font-bold">Todos os Produtos</h2>
+          <h2 className="font-montserrat text-2xl md:text-3xl font-bold">Todos os Produtos</h2>
         </div>
         <div className="overflow-x-auto scrollbar-hide mb-5">
           <div className="flex space-x-2 md:space-x-4 min-w-max pb-2">
@@ -107,7 +107,7 @@ export default function ProductSection({
   return (
     <section className="mb-10">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="font-playfair text-2xl md:text-3xl font-bold">Todos os Produtos</h2>
+        <h2 className="font-montserrat text-2xl md:text-3xl font-bold">Todos os Produtos</h2>
         <Link href="/products">
           <a className="font-montserrat text-[#f74ea7] font-medium text-sm">Ver todos</a>
         </Link>

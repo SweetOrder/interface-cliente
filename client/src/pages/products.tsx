@@ -66,7 +66,7 @@ export default function Products() {
   if (isLoading) {
     return (
       <div className="container mx-auto px-4 py-6">
-        <h1 className="font-playfair text-3xl font-bold mb-6">
+        <h1 className="font-montserrat text-3xl font-bold mb-6">
           {showFavorites ? 'Meus Favoritos' : 'Todos os Produtos'}
         </h1>
         <div className="flex space-x-2 overflow-x-auto pb-4 hide-scrollbar">
@@ -85,7 +85,7 @@ export default function Products() {
   
   return (
     <div className="container mx-auto px-4 py-6">
-      <h1 className="font-playfair text-3xl font-bold mb-6">
+      <h1 className="font-montserrat text-3xl font-bold mb-6">
         {showFavorites ? 'Meus Favoritos' : 'Todos os Produtos'}
       </h1>
       

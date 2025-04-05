@@ -24,7 +24,7 @@ export default function FavoriteSection({ userId, onAuthRequired }: FavoriteSect
   if (!userId) {
     return (
       <section className="mb-10">
-        <h2 className="font-playfair text-2xl md:text-3xl font-bold mb-4">Seus Favoritos</h2>
+        <h2 className="font-montserrat text-2xl md:text-3xl font-bold mb-4">Seus Favoritos</h2>
         <div className="bg-gray-50 rounded-lg p-6 text-center">
           <Heart className="h-16 w-16 text-gray-300 mx-auto mb-4" />
           <h3 className="text-lg font-semibold mb-2">Entre para ver seus favoritos</h3>
@@ -55,7 +55,7 @@ export default function FavoriteSection({ userId, onAuthRequired }: FavoriteSect
   return (
     <section className="mb-10">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="font-playfair text-2xl md:text-3xl font-bold">Seus Favoritos</h2>
+        <h2 className="font-montserrat text-2xl md:text-3xl font-bold">Seus Favoritos</h2>
         <Link href="/products?filter=favorites">
           <a className="font-montserrat text-[#f74ea7] font-medium text-sm">Ver todos</a>
         </Link>
